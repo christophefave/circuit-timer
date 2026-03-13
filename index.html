@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2857/2857312.png">
     <title>Circuit Training Timer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #09090b; color: #f4f4f5; font-family: system-ui, -apple-system, sans-serif; }
         
-        /* Masquer les flèches des inputs number */
+        /* Hide number input arrows */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -18,7 +20,7 @@
             -moz-appearance: textfield;
         }
         
-        /* Couleurs des phases */
+        /* Phase Colors */
         .text-prepare { color: #facc15; }
         .text-work { color: #34d399; }
         .text-rest { color: #fb7185; }
@@ -33,22 +35,25 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-emerald-500/30">
-    <!-- En-tête -->
+    <!-- Header -->
     <header class="p-4 sm:p-6 border-b border-zinc-800/50 flex justify-between items-center">
         <h1 class="text-xl font-bold tracking-tight">Circuit<span class="text-emerald-400">Timer</span></h1>
-        <button id="soundToggle" class="p-3 rounded-full hover:bg-zinc-800/50 transition-colors text-zinc-400 hover:text-white">
-            <svg id="icon-vol-on" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-            <svg id="icon-vol-off" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-        </button>
+        <div class="relative flex items-center gap-2">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" class="hidden w-24 h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <button id="soundToggle" class="p-3 rounded-full hover:bg-zinc-800/50 transition-colors text-zinc-400 hover:text-white">
+                <svg id="icon-vol-on" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+                <svg id="icon-vol-off" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            </button>
+        </div>
     </header>
 
-    <!-- Contenu Principal -->
+    <!-- Main -->
     <main class="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-4xl mx-auto gap-6 sm:gap-8">
         
-        <!-- Affichage du Chronomètre -->
+        <!-- Timer Display -->
         <div id="timerCircle" class="w-full max-w-md aspect-square rounded-full flex flex-col items-center justify-center border-4 transition-colors duration-500 relative bg-idle">
             <div id="phaseLabel" class="absolute top-12 sm:top-16 text-xs sm:text-sm font-bold tracking-widest uppercase text-zinc-400">PRÊT</div>
-            <div id="timeDisplay" class="text-7xl sm:text-9xl font-black tracking-tighter tabular-nums text-idle transition-colors duration-300">0:10</div>
+            <div id="timeDisplay" class="text-[110px] sm:text-[160px] leading-none font-black tracking-tighter tabular-nums text-idle transition-colors duration-300">0:10</div>
             
             <div id="progressInfo" class="absolute bottom-12 sm:bottom-16 flex gap-6 sm:gap-8 text-sm font-medium text-zinc-400 hidden">
                 <div class="flex flex-col items-center">
@@ -62,7 +67,7 @@
             </div>
         </div>
 
-        <!-- Contrôles -->
+        <!-- Controls -->
         <div class="flex gap-3 sm:gap-4">
             <button id="startBtn" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
@@ -78,15 +83,15 @@
             </button>
         </div>
 
-        <!-- Panneau de Configuration -->
+        <!-- Configuration Panel -->
         <div id="configPanel" class="w-full max-w-2xl grid grid-cols-3 gap-2 sm:gap-4 mt-2 sm:mt-6">
-            <!-- Les éléments de config seront générés ici par le JS -->
+            <!-- Config items generated by JS -->
         </div>
 
     </main>
 
     <script>
-        // --- Configuration & État ---
+        // --- Configuration & State ---
         const config = {
             prepareTime: 10,
             exercises: 5,
@@ -102,13 +107,13 @@
             timeLeft: config.prepareTime,
             currentExo: 1,
             currentRound: 1,
-            soundEnabled: true
+            volume: 0.5
         };
 
         let interval = null;
         let audioCtx = null;
 
-        // --- Éléments du DOM ---
+        // --- DOM Elements ---
         const timeDisplay = document.getElementById('timeDisplay');
         const phaseLabel = document.getElementById('phaseLabel');
         const timerCircle = document.getElementById('timerCircle');
@@ -126,11 +131,12 @@
         const iconResume = document.getElementById('icon-resume');
         
         const soundToggle = document.getElementById('soundToggle');
+        const volumeSlider = document.getElementById('volumeSlider');
         const iconVolOn = document.getElementById('icon-vol-on');
         const iconVolOff = document.getElementById('icon-vol-off');
         const configPanel = document.getElementById('configPanel');
 
-        // --- Système Audio ---
+        // --- Audio System ---
         function initAudio() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -139,7 +145,7 @@
         }
 
         function playSound(type) {
-            if (!state.soundEnabled || !audioCtx) return;
+            if (state.volume === 0 || !audioCtx) return;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
@@ -149,19 +155,19 @@
             if (type === 'countdown') {
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(600, now);
-                gain.gain.setValueAtTime(0.5, now);
+                gain.gain.setValueAtTime(state.volume, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
                 osc.start(now); osc.stop(now + 0.1);
             } else if (type === 'work') {
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(880, now); // A5
-                gain.gain.setValueAtTime(0.5, now);
+                gain.gain.setValueAtTime(state.volume, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
                 osc.start(now); osc.stop(now + 0.4);
             } else if (type === 'rest') {
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(440, now); // A4
-                gain.gain.setValueAtTime(0.5, now);
+                gain.gain.setValueAtTime(state.volume, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
                 osc.start(now); osc.stop(now + 0.4);
             } else if (type === 'finish') {
@@ -169,13 +175,13 @@
                 osc.frequency.setValueAtTime(440, now);
                 osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
                 osc.frequency.exponentialRampToValueAtTime(1100, now + 0.4);
-                gain.gain.setValueAtTime(0.5, now);
+                gain.gain.setValueAtTime(state.volume, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 1);
                 osc.start(now); osc.stop(now + 1);
             }
         }
 
-        // --- Mise à jour de l'UI ---
+        // --- UI Updates ---
         function formatTime(sec) {
             const m = Math.floor(sec / 60);
             const s = sec % 60;
@@ -189,12 +195,12 @@
             currentRoundEl.textContent = state.currentRound;
             totalRoundsEl.textContent = config.rounds;
 
-            // Mise à jour des couleurs
+            // Update Colors
             const colorClass = state.status === 'idle' ? 'idle' : state.phase;
             timerCircle.className = `w-full max-w-md aspect-square rounded-full flex flex-col items-center justify-center border-4 transition-colors duration-500 relative bg-${colorClass}`;
-            timeDisplay.className = `text-7xl sm:text-9xl font-black tracking-tighter tabular-nums transition-colors duration-300 text-${colorClass}`;
+            timeDisplay.className = `text-[110px] sm:text-[160px] leading-none font-black tracking-tighter tabular-nums transition-colors duration-300 text-${colorClass}`;
 
-            // Mise à jour des labels
+            // Update Labels
             if (state.status === 'idle') phaseLabel.textContent = 'PRÊT';
             else if (state.status === 'finished') phaseLabel.textContent = 'TERMINÉ';
             else if (state.phase === 'prepare') phaseLabel.textContent = 'PRÉPARATION';
@@ -202,7 +208,7 @@
             else if (state.phase === 'rest') phaseLabel.textContent = 'REPOS';
             else if (state.phase === 'roundRest') phaseLabel.textContent = 'REPOS LONG';
 
-            // Visibilité des éléments
+            // Toggle Visibility
             if (state.status === 'running' || state.status === 'paused') {
                 progressInfo.classList.remove('hidden');
                 configPanel.classList.add('hidden');
@@ -228,7 +234,7 @@
             }
         }
 
-        // --- Logique du Chronomètre ---
+        // --- Timer Logic ---
         function handleTransition() {
             if (state.phase === 'prepare') {
                 state.phase = 'work';
@@ -276,7 +282,7 @@
             }
         }
 
-        // --- Écouteurs d'événements ---
+        // --- Event Listeners ---
         startBtn.addEventListener('click', () => {
             initAudio();
             if (state.status === 'idle' || state.status === 'finished') {
@@ -310,19 +316,23 @@
         });
 
         soundToggle.addEventListener('click', () => {
-            state.soundEnabled = !state.soundEnabled;
-            if (state.soundEnabled) {
-                iconVolOn.classList.remove('hidden');
-                iconVolOff.classList.add('hidden');
-                soundToggle.classList.replace('text-zinc-600', 'text-zinc-400');
-            } else {
+            volumeSlider.classList.toggle('hidden');
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            state.volume = parseFloat(e.target.value);
+            if (state.volume === 0) {
                 iconVolOn.classList.add('hidden');
                 iconVolOff.classList.remove('hidden');
                 soundToggle.classList.replace('text-zinc-400', 'text-zinc-600');
+            } else {
+                iconVolOn.classList.remove('hidden');
+                iconVolOff.classList.add('hidden');
+                soundToggle.classList.replace('text-zinc-600', 'text-zinc-400');
             }
         });
 
-        // --- Génération de l'UI de Configuration ---
+        // --- Generate Config UI ---
         const configItems = [
             { key: 'prepareTime', label: 'Prépa (s)' },
             { key: 'exercises', label: 'Exercices' },
@@ -363,6 +373,8 @@
             div.querySelector('.dec').addEventListener('click', () => updateValue(config[item.key] - 1));
             div.querySelector('.inc').addEventListener('click', () => updateValue(config[item.key] + 1));
             
+            input.addEventListener('focus', (e) => e.target.select());
+            input.addEventListener('click', (e) => e.target.select());
             input.addEventListener('blur', (e) => updateValue(e.target.value));
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') input.blur();
@@ -371,8 +383,9 @@
             configPanel.appendChild(div);
         });
 
-        // Rendu initial
+        // Initial render
         updateUI();
     </script>
 </body>
 </html>
+
