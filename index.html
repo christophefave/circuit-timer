@@ -129,13 +129,7 @@
                     wakeLock = await navigator.wakeLock.request('screen');
                 }
             } catch (err) {
-                // L'API Wake Lock est souvent bloquée dans les iframes (comme l'aperçu ici).
-                // Elle fonctionnera normalement une fois l'application installée sur le téléphone.
-                if (err.name === 'NotAllowedError') {
-                    console.log('Info: Wake Lock API bloquée dans cet aperçu. Elle fonctionnera en mode PWA.');
-                } else {
-                    console.warn('Wake Lock error:', err);
-                }
+                console.error('Wake Lock error:', err);
             }
         }
 
