@@ -423,28 +423,6 @@
 
         // Initial render
         updateUI();
-
-        // --- Service Worker PWA (Inline) ---
-        // Nécessaire pour déclencher l'invite d'installation sur Android/Chrome
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                self.addEventListener('install', (e) => self.skipWaiting());
-                self.addEventListener('activate', (e) => self.clients.claim());
-                self.addEventListener('fetch', (e) => {
-                    e.respondWith(fetch(e.request).catch(() => new Response('OK')));
-                });
-            `;
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('Service Worker PWA enregistré (Blob).'))
-                .catch((err) => {
-                    console.warn('Le navigateur bloque les SW en Blob. Tentative avec sw.js local...', err);
-                    // Fallback si la sécurité du navigateur bloque les Blob URL pour les Service Workers
-                    navigator.serviceWorker.register('sw.js').catch(() => console.log("Pour forcer l'installation, créez un fichier sw.js vide à côté de index.html"));
-                });
-        }
     </script>
 </body>
 </html>
