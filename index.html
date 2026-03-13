@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2857/2857312.png">
+    <link rel="apple-touch-icon" href="Icone-timer.png">
+    <link rel="icon" type="image/png" href="Icone-timer.png">
     <title>Circuit Training Timer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -22,24 +23,27 @@
         
         /* Phase Colors */
         .text-prepare { color: #facc15; }
-        .text-work { color: #34d399; }
+        .text-work { color: #f97316; }
         .text-rest { color: #fb7185; }
         .text-roundRest { color: #60a5fa; }
         .text-idle { color: #f4f4f5; }
         
         .bg-prepare { background-color: rgba(250, 204, 21, 0.1); border-color: rgba(250, 204, 21, 0.2); }
-        .bg-work { background-color: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.2); }
+        .bg-work { background-color: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.2); }
         .bg-rest { background-color: rgba(251, 113, 133, 0.1); border-color: rgba(251, 113, 133, 0.2); }
         .bg-roundRest { background-color: rgba(96, 165, 250, 0.1); border-color: rgba(96, 165, 250, 0.2); }
         .bg-idle { background-color: #27272a; border-color: #3f3f46; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-emerald-500/30">
+<body class="min-h-screen flex flex-col selection:bg-orange-500/30">
     <!-- Header -->
     <header class="p-4 sm:p-6 border-b border-zinc-800/50 flex justify-between items-center">
-        <h1 class="text-xl font-bold tracking-tight">Circuit<span class="text-emerald-400">Timer</span></h1>
+        <div class="flex items-center gap-3">
+            <img src="Icone-timer.png" alt="Logo" class="w-8 h-8 sm:w-10 sm:h-10">
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight">Circuit<span class="text-orange-500">Timer</span></h1>
+        </div>
         <div class="relative flex items-center gap-2">
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" class="hidden w-24 h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" class="hidden w-24 h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
             <button id="soundToggle" class="p-3 rounded-full hover:bg-zinc-800/50 transition-colors text-zinc-400 hover:text-white">
                 <svg id="icon-vol-on" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
                 <svg id="icon-vol-off" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
@@ -69,7 +73,7 @@
 
         <!-- Controls -->
         <div class="flex gap-3 sm:gap-4">
-            <button id="startBtn" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all active:scale-95">
+            <button id="startBtn" class="flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-zinc-950 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                 DÉMARRER
             </button>
@@ -351,7 +355,7 @@
                     <button class="dec w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center text-zinc-300 transition-colors active:scale-95 shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
-                    <input type="number" inputmode="numeric" class="val text-base sm:text-2xl font-bold tabular-nums w-8 sm:w-14 text-center bg-transparent border-none outline-none focus:ring-2 focus:ring-emerald-500/50 rounded appearance-none m-0 p-0" value="${config[item.key]}">
+                    <input type="number" inputmode="numeric" class="val text-base sm:text-2xl font-bold tabular-nums w-8 sm:w-14 text-center bg-transparent border-none outline-none focus:ring-2 focus:ring-orange-500/50 rounded appearance-none m-0 p-0" value="${config[item.key]}">
                     <button class="inc w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center text-zinc-300 transition-colors active:scale-95 shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </button>
